@@ -1,10 +1,130 @@
-<Project Sdk="Microsoft.NET.Sdk">
+using System;
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>disable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+namespace AttendanceSystem
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Initialize variables
+            string studentName = "";
+            int presentCount = 0;
+            int absentCount = 0;
+            bool exitProgram = false;
 
-</Project>
+            Console.WriteLine("=== Student Attendance Tracking System ===\n");
+
+            // Main loop
+            while (!exitProgram)
+            {
+                // Display Menu
+                Console.WriteLine("\n--- MENU ---");
+                Console.WriteLine("1. Register Student");
+                Console.WriteLine("2. Mark Present");
+                Console.WriteLine("3. Mark Absent");
+                Console.WriteLine("4. View Attendance Summary");
+                Console.WriteLine("5. Reset Attendance");
+                Console.WriteLine("6. Exit");
+                Console.Write("\nSelect an option: ");
+
+                string choice = Console.ReadLine();
+
+                switch (choice)
+                {
+                    case "1":
+                        // Option: Register Student
+                        Console.Write("\nEnter Student Name: ");
+                        studentName = Console.ReadLine();
+                        Console.WriteLine($"Student '{studentName}' registered successfully!");
+                        break;
+
+                    case "2":
+                        // Option: Mark Present
+                        if (string.IsNullOrEmpty(studentName))
+                        {
+                            Console.WriteLine("\nError: Please register a student first!");
+                        }
+                        else
+                        {
+                            presentCount = presentCount + 1;
+                            Console.WriteLine($"\n{studentName} marked as PRESENT.");
+                            Console.WriteLine($"Total Present: {presentCount}");
+                        }
+                        break;
+
+                    case "3":
+                        // Option: Mark Absent
+                        if (string.IsNullOrEmpty(studentName))
+                        {
+                            Console.WriteLine("\nError: Please register a student first!");
+                        }
+                        else
+                        {
+                            absentCount = absentCount + 1;
+                            Console.WriteLine($"\n{studentName} marked as ABSENT.");
+                            Console.WriteLine($"Total Absent: {absentCount}");
+                        }
+                        break;
+
+                    case "4":
+                        // Option: View Attendance Summary
+                        if (string.IsNullOrEmpty(studentName))
+                        {
+                            Console.WriteLine("\nError: Please register a student first!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\n--- Attendance Summary ---");
+                            Console.WriteLine($"Student Name: {studentName}");
+                            Console.WriteLine($"Present Count: {presentCount}");
+                            Console.WriteLine($"Absent Count: {absentCount}");
+                            
+                            int totalDays = presentCount + absentCount;
+                            if (totalDays > 0)
+                            {
+                                double attendancePercentage = ((double)presentCount / totalDays) * 100;
+                                Console.WriteLine($"Attendance Percentage: {attendancePercentage:F2}%");
+                            }
+                        }
+                        break;
+
+                    case "5":
+                        // Option: Reset Attendance
+                        if (string.IsNullOrEmpty(studentName))
+                        {
+                            Console.WriteLine("\nError: Please register a student first!");
+                        }
+                        else
+                        {
+                            presentCount = 0;
+                            absentCount = 0;
+                            Console.WriteLine("\n*** Attendance Reset ***");
+                            Console.WriteLine($"Attendance records for '{studentName}' have been reset to 0.");
+                        }
+                        break;
+
+                    case "6":
+                        // Option: Exit
+                        Console.Write("\nAre you sure you want to exit? (Y/N): ");
+                        string confirmation = Console.ReadLine()?.ToUpper();
+                        
+                        if (confirmation == "Y" || confirmation == "YES")
+                        {
+                            exitProgram = true;
+                            Console.WriteLine("\nThank you for using the Attendance Tracking System. Goodbye!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nReturning to menu...");
+                        }
+                        break;
+
+                    default:
+                        // Invalid option
+                        Console.WriteLine("\nInvalid option! Please select a number between 1 and 6.");
+                        break;
+                }
+            }
+        }
+    }
+}
